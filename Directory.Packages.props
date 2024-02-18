@@ -1,0 +1,13 @@
+﻿<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageVersion Include="AutomaticInterface" Version="2.2.1" />
+    <PackageVersion Include="CSharpFunctionalExtensions" Version="2.40.3" />
+    <PackageVersion Include="CSharpFunctionalExtensions.Analyzers" Version="1.4.0" />
+    <PackageVersion Include="Marten" Version="6.4.1" />
+    <PackageVersion Include="Marten.AspNetCore" Version="6.4.1" />
+  </ItemGroup>
+</Project>

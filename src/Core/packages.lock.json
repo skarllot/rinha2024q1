@@ -1,0 +1,28 @@
+{
+  "version": 2,
+  "dependencies": {
+    "net8.0": {
+      "AutomaticInterface": {
+        "type": "Direct",
+        "requested": "[2.2.1, )",
+        "resolved": "2.2.1",
+        "contentHash": "o+Zb+MnCkFdrdqXehCv87jj9t26y7BZgLXndKIcfBLAmxUME6hbnbWqYPisTWO58zD+fbdcAqG69hcXqDJaBLw=="
+      },
+      "CSharpFunctionalExtensions": {
+        "type": "Direct",
+        "requested": "[2.40.3, )",
+        "resolved": "2.40.3",
+        "contentHash": "G+t+bf39aixVFN3O3Q5LoE0zy3o8QlV3mv3ATw76XwDRWkE9eFRLzZdx9HH9fgbPpasfP4kr8cnnXIP+Z7GcrQ=="
+      },
+      "CSharpFunctionalExtensions.Analyzers": {
+        "type": "Direct",
+        "requested": "[1.4.0, )",
+        "resolved": "1.4.0",
+        "contentHash": "YyjMlj5KUclgI84y9oMcu4N6Yu20ihY9TfhuP4qjjR8p+I5MBriNExphL0cPfa89fcSZwGBR7tTwxH4K/x/0LA=="
+      },
+      "Rinha.MMXXIV.Q1.Contracts": {
+        "type": "Project"
+      }
+    }
+  }
+}
