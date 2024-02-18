@@ -6,8 +6,7 @@ public static class AcaoCreditarCliente
 {
     public static Result<ClienteCreditado, ErroCrédito> Executar(
         Cliente cliente,
-        CreditarCliente comando,
-        DateTimeOffset dataHora)
+        CreditarCliente comando)
     {
         return comando switch
         {
@@ -16,7 +15,7 @@ public static class AcaoCreditarCliente
             _ when string.IsNullOrWhiteSpace(comando.Descrição) => ErroCrédito.DescriçãoVazia,
             _ when comando.Descrição.Length > 10 => ErroCrédito.DescriçãoMuitoLonga,
 
-            _ => new ClienteCreditado(comando.Id, comando.Valor, comando.Descrição, dataHora)
+            _ => new ClienteCreditado(comando.Id, comando.Valor, comando.Descrição)
         };
     }
 }

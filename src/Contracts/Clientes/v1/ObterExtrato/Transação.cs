@@ -2,6 +2,6 @@
 
 public sealed record Transação(
     int Valor,
-    string Tipo,
+    TipoTransferência Tipo,
     string Descricao,
     DateTimeOffset RealizadaEm);

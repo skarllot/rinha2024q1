@@ -6,8 +6,7 @@ public static class AcaoDebitarCliente
 {
     public static Result<ClienteDebitado, ErroDébito> Executar(
         Cliente cliente,
-        DebitarCliente comando,
-        DateTimeOffset dataHora)
+        DebitarCliente comando)
     {
         return comando switch
         {
@@ -18,7 +17,7 @@ public static class AcaoDebitarCliente
             _ when cliente.Limite == 0 && cliente.Saldo - comando.Valor < 0 => ErroDébito.SaldoInsuficiente,
             _ when cliente.Saldo + cliente.Limite - comando.Valor < 0 => ErroDébito.LimiteInsuficiente,
 
-            _ => new ClienteDebitado(comando.Id, comando.Valor, comando.Descrição, dataHora)
+            _ => new ClienteDebitado(comando.Id, comando.Valor, comando.Descrição)
         };
     }
 }

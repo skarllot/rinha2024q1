@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using Rinha.MMXXIV.Q1.Contracts.Clientes.v1;
 using Rinha.MMXXIV.Q1.Contracts.Clientes.v1.Transferir;
 using Rinha.MMXXIV.Q1.Core.Clientes.Creditar;
 using Rinha.MMXXIV.Q1.Core.Clientes.Debitar;
@@ -22,8 +23,8 @@ public class ReceberTransferirParaCliente(IEntityStore<Cliente> entityStore) : I
         return request.Tipo switch
         {
             TipoTransferência.Crédito => await AcaoCreditarCliente
-                .Executar(cliente, new CreditarCliente(dbId, request.Valor, request.Descricao), DateTimeOffset.UtcNow)
-                .Tap(e => entityStore.AppendAndSaveChanges(e.Id, 0, e, cancellationToken))
+                .Executar(cliente, new CreditarCliente(dbId, request.Valor, request.Descricao))
+                .Tap(e => entityStore.AppendAndSaveChanges(e.Id, cliente.Version, e, cancellationToken))
                 .Convert(
                     _ => new TransferirParaClienteResponse(cliente.Limite, cliente.Saldo),
                     e => e switch
@@ -36,8 +37,8 @@ public class ReceberTransferirParaCliente(IEntityStore<Cliente> entityStore) : I
                     }),
 
             TipoTransferência.Débito => await AcaoDebitarCliente
-                .Executar(cliente, new DebitarCliente(dbId, request.Valor, request.Descricao), DateTimeOffset.UtcNow)
-                .Tap(e => entityStore.AppendAndSaveChanges(e.Id, 0, e, cancellationToken))
+                .Executar(cliente, new DebitarCliente(dbId, request.Valor, request.Descricao))
+                .Tap(e => entityStore.AppendAndSaveChanges(e.Id, cliente.Version, e, cancellationToken))
                 .Convert(
                     _ => new TransferirParaClienteResponse(cliente.Limite, cliente.Saldo),
                     e => e switch

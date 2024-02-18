@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Rinha.MMXXIV.Q1.Contracts.Clientes.v1.Transferir;
+namespace Rinha.MMXXIV.Q1.Contracts.Clientes.v1;
 
 [JsonConverter(typeof(TipoTransferênciaJsonConverter))]
 public enum TipoTransferência

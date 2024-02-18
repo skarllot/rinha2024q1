@@ -3,5 +3,4 @@
 public sealed record ClienteCreditado(
     Guid Id,
     int Valor,
-    string Descrição,
-    DateTimeOffset RealizadoEm);
+    string Descrição);
