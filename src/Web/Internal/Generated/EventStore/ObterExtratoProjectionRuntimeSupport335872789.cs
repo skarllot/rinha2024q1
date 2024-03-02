@@ -52,8 +52,8 @@ namespace Marten.Generated.EventStore
         {
             switch (@event)
             {
-                case Marten.Events.IEvent<Rinha.MMXXIV.Q1.Core.Clientes.Cadastrar.ClienteCadastrado> event_ClienteCadastrado1:
-                    return Create1.Invoke(event_ClienteCadastrado1);
+                case Marten.Events.IEvent<Rinha.MMXXIV.Q1.Core.Clientes.Cadastrar.ClienteCadastrado> event_ClienteCadastrado8:
+                    return Create1.Invoke(event_ClienteCadastrado8);
                     break;
             }
 
@@ -71,11 +71,11 @@ namespace Marten.Generated.EventStore
         {
             switch (@event)
             {
-                case Marten.Events.IEvent<Rinha.MMXXIV.Q1.Core.Clientes.Creditar.ClienteCreditado> event_ClienteCreditado2:
-                    aggregate = ProjectEvent1.Invoke(aggregate, event_ClienteCreditado2);
+                case Marten.Events.IEvent<Rinha.MMXXIV.Q1.Core.Clientes.Creditar.ClienteCreditado> event_ClienteCreditado9:
+                    aggregate = ProjectEvent1.Invoke(aggregate, event_ClienteCreditado9);
                     break;
-                case Marten.Events.IEvent<Rinha.MMXXIV.Q1.Core.Clientes.Debitar.ClienteDebitado> event_ClienteDebitado3:
-                    aggregate = ProjectEvent2.Invoke(aggregate, event_ClienteDebitado3);
+                case Marten.Events.IEvent<Rinha.MMXXIV.Q1.Core.Clientes.Debitar.ClienteDebitado> event_ClienteDebitado10:
+                    aggregate = ProjectEvent2.Invoke(aggregate, event_ClienteDebitado10);
                     break;
             }
 
@@ -117,16 +117,16 @@ namespace Marten.Generated.EventStore
         {
             switch (evt)
             {
-                case Marten.Events.IEvent<Rinha.MMXXIV.Q1.Core.Clientes.Cadastrar.ClienteCadastrado> event_ClienteCadastrado7:
-                    aggregate = Create1.Invoke(event_ClienteCadastrado7);
+                case Marten.Events.IEvent<Rinha.MMXXIV.Q1.Core.Clientes.Cadastrar.ClienteCadastrado> event_ClienteCadastrado14:
+                    aggregate = Create1.Invoke(event_ClienteCadastrado14);
                     return aggregate;
-                case Marten.Events.IEvent<Rinha.MMXXIV.Q1.Core.Clientes.Creditar.ClienteCreditado> event_ClienteCreditado5:
+                case Marten.Events.IEvent<Rinha.MMXXIV.Q1.Core.Clientes.Creditar.ClienteCreditado> event_ClienteCreditado12:
                     if(aggregate == default) throw new Marten.Exceptions.InvalidProjectionException("Projection for Rinha.MMXXIV.Q1.Infrastructure.Clientes.v1.ObterExtrato.ExtratoModel should either have a static Create method that returns the event type Marten.Events.IEvent<Rinha.MMXXIV.Q1.Core.Clientes.Creditar.ClienteCreditado> or Rinha.MMXXIV.Q1.Infrastructure.Clientes.v1.ObterExtrato.ExtratoModel should have either have a public, no argument constructor or a constructor function that takes the Marten.Events.IEvent<Rinha.MMXXIV.Q1.Core.Clientes.Creditar.ClienteCreditado> as a parameter. This error occurs when Marten is trying to build a new aggregate, but the aggregate projection does not have a way to create a new aggregate from the first event in the event stream. A common cause is persisting events out of order according to your application's domain logic rules");
-                    aggregate = ProjectEvent1.Invoke(aggregate, event_ClienteCreditado5);
+                    aggregate = ProjectEvent1.Invoke(aggregate, event_ClienteCreditado12);
                     return aggregate;
-                case Marten.Events.IEvent<Rinha.MMXXIV.Q1.Core.Clientes.Debitar.ClienteDebitado> event_ClienteDebitado6:
+                case Marten.Events.IEvent<Rinha.MMXXIV.Q1.Core.Clientes.Debitar.ClienteDebitado> event_ClienteDebitado13:
                     if(aggregate == default) throw new Marten.Exceptions.InvalidProjectionException("Projection for Rinha.MMXXIV.Q1.Infrastructure.Clientes.v1.ObterExtrato.ExtratoModel should either have a static Create method that returns the event type Marten.Events.IEvent<Rinha.MMXXIV.Q1.Core.Clientes.Debitar.ClienteDebitado> or Rinha.MMXXIV.Q1.Infrastructure.Clientes.v1.ObterExtrato.ExtratoModel should have either have a public, no argument constructor or a constructor function that takes the Marten.Events.IEvent<Rinha.MMXXIV.Q1.Core.Clientes.Debitar.ClienteDebitado> as a parameter. This error occurs when Marten is trying to build a new aggregate, but the aggregate projection does not have a way to create a new aggregate from the first event in the event stream. A common cause is persisting events out of order according to your application's domain logic rules");
-                    aggregate = ProjectEvent2.Invoke(aggregate, event_ClienteDebitado6);
+                    aggregate = ProjectEvent2.Invoke(aggregate, event_ClienteDebitado13);
                     return aggregate;
             }
 
@@ -138,8 +138,8 @@ namespace Marten.Generated.EventStore
         {
             switch (@event)
             {
-                case Marten.Events.IEvent<Rinha.MMXXIV.Q1.Core.Clientes.Cadastrar.ClienteCadastrado> event_ClienteCadastrado4:
-                    return Create1.Invoke(event_ClienteCadastrado4);
+                case Marten.Events.IEvent<Rinha.MMXXIV.Q1.Core.Clientes.Cadastrar.ClienteCadastrado> event_ClienteCadastrado11:
+                    return Create1.Invoke(event_ClienteCadastrado11);
                     break;
             }
 

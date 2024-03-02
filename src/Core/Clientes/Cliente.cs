@@ -9,14 +9,14 @@ public record Cliente(
     int Limite,
     int Saldo)
 {
-    public int Version { get; set; }
+    public long Version { get; private init; }
 
     public static Cliente Create(ClienteCadastrado cadastrado) =>
-        new(cadastrado.Id, cadastrado.Limite, cadastrado.SaldoInicial);
+        new(cadastrado.Id, cadastrado.Limite, cadastrado.SaldoInicial) { Version = 1 };
 
     public Cliente Apply(ClienteCreditado creditado) =>
-        this with { Saldo = Saldo + creditado.Valor };
+        this with { Saldo = Saldo + creditado.Valor, Version = Version + 1 };
 
     public Cliente Apply(ClienteDebitado debitado) =>
-        this with { Saldo = Saldo - debitado.Valor };
+        this with { Saldo = Saldo - debitado.Valor, Version = Version + 1 };
 }

@@ -15,7 +15,7 @@ public class ReceberTransferirParaCliente(IEntityStore<Cliente> entityStore) : I
         TransferirParaClienteRequest request,
         CancellationToken cancellationToken)
     {
-        var dbId = id.AsCombGuid();
+        var dbId = PostgreSqlCombProvider.Create(id);
         var cliente = await entityStore.Aggregate(dbId, cancellationToken);
         if (cliente is null)
             return ErroAoTransferir.ClienteNaoEncontrado;
@@ -25,8 +25,9 @@ public class ReceberTransferirParaCliente(IEntityStore<Cliente> entityStore) : I
             TipoTransferência.Crédito => await AcaoCreditarCliente
                 .Executar(cliente, new CreditarCliente(dbId, request.Valor, request.Descricao))
                 .Tap(e => entityStore.AppendAndSaveChanges(e.Id, cliente.Version, e, cancellationToken))
+                .Map(e => cliente.Apply(e))
                 .Convert(
-                    _ => new TransferirParaClienteResponse(cliente.Limite, cliente.Saldo),
+                    c => new TransferirParaClienteResponse(c.Limite, c.Saldo),
                     e => e switch
                     {
                         ErroCrédito.ValorNegativo => ErroAoTransferir.ValorNegativo,
@@ -39,8 +40,9 @@ public class ReceberTransferirParaCliente(IEntityStore<Cliente> entityStore) : I
             TipoTransferência.Débito => await AcaoDebitarCliente
                 .Executar(cliente, new DebitarCliente(dbId, request.Valor, request.Descricao))
                 .Tap(e => entityStore.AppendAndSaveChanges(e.Id, cliente.Version, e, cancellationToken))
+                .Map(e => cliente.Apply(e))
                 .Convert(
-                    _ => new TransferirParaClienteResponse(cliente.Limite, cliente.Saldo),
+                    c => new TransferirParaClienteResponse(c.Limite, c.Saldo),
                     e => e switch
                     {
                         ErroDébito.ValorNegativo => ErroAoTransferir.ValorNegativo,

@@ -63,7 +63,7 @@ clientesApi.MapGet(
     "/{id:long}/extrato",
     (long id, IQuerySession session, CancellationToken ct) =>
         session.Query<ExtratoModel>()
-            .FirstOrDefaultAsync(x => x.Id == id.AsCombGuid(), ct)
+            .FirstOrDefaultAsync(x => x.Id == PostgreSqlCombProvider.Create(id), ct)
             .ToResultAsync(ErroAoObterExtrato.ClienteNaoEncontrado)
             .Finally(
                 r => r switch

@@ -1,11 +1,28 @@
-@Rinha.Web_HostAddress = http://localhost:5072
+@Rinha.Web_HostAddress = http://localhost:9999
 
-GET {{Rinha.Web_HostAddress}}/todos/
+GET {{Rinha.Web_HostAddress}}/clientes/1/extrato
 Accept: application/json
 
 ###
 
-GET {{Rinha.Web_HostAddress}}/todos/1
+POST {{Rinha.Web_HostAddress}}/clientes/1/transacoes
 Accept: application/json
+Content-Type: application/json
+
+{
+    "valor": 1000,
+    "tipo" : "c",
+    "descricao" : "descricao"
+}
 
 ###
+
+POST {{Rinha.Web_HostAddress}}/clientes/1/transacoes
+Accept: application/json
+Content-Type: application/json
+
+{
+    "valor": 1000,
+    "tipo" : "d",
+    "descricao" : "descricao"
+}

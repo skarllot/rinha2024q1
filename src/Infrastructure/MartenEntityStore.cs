@@ -7,10 +7,12 @@ public class MartenEntityStore<TEntity>(IDocumentSession session) : IEntityStore
     where TEntity : class
 {
     public Task<TEntity?> Aggregate(Guid id, long version = 0, CancellationToken cancellationToken = default) =>
-        session.Events.AggregateStreamAsync<TEntity>(id, version, token: cancellationToken);
+        id != Guid.Empty
+            ? session.Events.AggregateStreamAsync<TEntity>(id, version, token: cancellationToken)
+            : Task.FromResult(default(TEntity));
 
     public void Append<TEvent>(Guid id, long version, TEvent entityEvent) where TEvent : class =>
-        session.Events.Append(id, version, [entityEvent]);
+        session.Events.Append(id, version + 1L, [entityEvent]);
 
     public Task SaveChanges(CancellationToken cancellationToken = default) =>
         session.SaveChangesAsync(cancellationToken);

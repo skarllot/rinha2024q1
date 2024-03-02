@@ -3,6 +3,7 @@ using Marten;
 using Marten.Events;
 using Marten.Events.Projections;
 using Marten.Services.Json;
+using Rinha.MMXXIV.Q1.Core.Clientes;
 using Rinha.MMXXIV.Q1.Infrastructure.Clientes.v1.ObterExtrato;
 using Weasel.Core;
 
@@ -29,6 +30,7 @@ public class MartenConfiguration : IConfigureMarten
             .DocumentAlias("extrato")
             .DatabaseSchemaName("projections");
 
+        options.Projections.LiveStreamAggregation<Cliente>();
         options.Projections.Add<ObterExtratoProjection>(ProjectionLifecycle.Async);
     }
 }

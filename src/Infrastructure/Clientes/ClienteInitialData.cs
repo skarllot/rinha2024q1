@@ -17,12 +17,16 @@ public class ClienteInitialData : IInitialData
             return;
         }
 
-        session.Events.StartStream<Cliente>(1L.AsCombGuid(), [new ClienteCadastrado(1L.AsCombGuid(), 100000, 0)]);
-        session.Events.StartStream<Cliente>(2L.AsCombGuid(), [new ClienteCadastrado(2L.AsCombGuid(), 80000, 0)]);
-        session.Events.StartStream<Cliente>(3L.AsCombGuid(), [new ClienteCadastrado(3L.AsCombGuid(), 1000000, 0)]);
-        session.Events.StartStream<Cliente>(4L.AsCombGuid(), [new ClienteCadastrado(4L.AsCombGuid(), 10000000, 0)]);
-        session.Events.StartStream<Cliente>(5L.AsCombGuid(), [new ClienteCadastrado(5L.AsCombGuid(), 500000, 0)]);
+        StartStream(session, new ClienteCadastrado(PostgreSqlCombProvider.Create(1L), 100000, 0));
+        StartStream(session, new ClienteCadastrado(PostgreSqlCombProvider.Create(2L), 80000, 0));
+        StartStream(session, new ClienteCadastrado(PostgreSqlCombProvider.Create(3L), 1000000, 0));
+        StartStream(session, new ClienteCadastrado(PostgreSqlCombProvider.Create(4L), 10000000, 0));
+        StartStream(session, new ClienteCadastrado(PostgreSqlCombProvider.Create(5L), 500000, 0));
 
         await session.SaveChangesAsync(cancellation).ConfigureAwait(false);
+        return;
+
+        static void StartStream(IDocumentSession session, ClienteCadastrado evt) =>
+            session.Events.StartStream<Cliente>(evt.Id, [evt]);
     }
 }

@@ -9,7 +9,7 @@ public static class AcaoCadastrarCliente
     {
         return comando switch
         {
-            _ when comando.Id.ToInt64() <= 0 => ErroCadastro.IdInvalido,
+            _ when PostgreSqlCombProvider.GetSequence(comando.Id) <= 0 => ErroCadastro.IdInvalido,
             _ when comando.Limite < 0 => ErroCadastro.LimiteInvalido,
             _ when comando.SaldoInicial < 0 => ErroCadastro.SaldoInicialInvalido,
 
