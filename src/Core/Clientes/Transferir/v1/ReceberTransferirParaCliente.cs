@@ -8,24 +8,21 @@ using Rinha.MMXXIV.Q1.Core.Common;
 namespace Rinha.MMXXIV.Q1.Core.Clientes.Transferir.v1;
 
 [GenerateAutomaticInterface]
-public class ReceberTransferirParaCliente(IEntityStore<Cliente> entityStore) : IReceberTransferirParaCliente
+public class ReceberTransferirParaCliente : IReceberTransferirParaCliente
 {
-    public async Task<Result<TransferirParaClienteResponse, ErroAoTransferir>> Executar(
-        long id,
-        TransferirParaClienteRequest request,
-        CancellationToken cancellationToken)
+    public Result<TransferirParaClienteResponse, ErroAoTransferir> Executar(
+        IEventStore<Cliente> eventStore,
+        TransferirParaClienteRequest request)
     {
-        var dbId = PostgreSqlCombProvider.Create(id);
-        var cliente = await entityStore.Aggregate(dbId, cancellationToken);
-        if (cliente is null)
+        if (eventStore.Aggregate is null)
             return ErroAoTransferir.ClienteNaoEncontrado;
 
         return request.Tipo switch
         {
-            TipoTransferência.Crédito => await AcaoCreditarCliente
-                .Executar(cliente, new CreditarCliente(dbId, request.Valor, request.Descricao))
-                .Tap(e => entityStore.AppendAndSaveChanges(e.Id, cliente.Version, e, cancellationToken))
-                .Map(e => cliente.Apply(e))
+            TipoTransferência.Crédito => AcaoCreditarCliente
+                .Executar(eventStore.Aggregate, new CreditarCliente(eventStore.Aggregate.Id, request.Valor, request.Descricao))
+                .Tap(e => eventStore.AppendOne(e))
+                .Map(e => eventStore.Aggregate.Apply(e))
                 .Convert(
                     c => new TransferirParaClienteResponse(c.Limite, c.Saldo),
                     e => e switch
@@ -37,10 +34,10 @@ public class ReceberTransferirParaCliente(IEntityStore<Cliente> entityStore) : I
                         _ => ErroAoTransferir.ErroDesconhecido
                     }),
 
-            TipoTransferência.Débito => await AcaoDebitarCliente
-                .Executar(cliente, new DebitarCliente(dbId, request.Valor, request.Descricao))
-                .Tap(e => entityStore.AppendAndSaveChanges(e.Id, cliente.Version, e, cancellationToken))
-                .Map(e => cliente.Apply(e))
+            TipoTransferência.Débito => AcaoDebitarCliente
+                .Executar(eventStore.Aggregate, new DebitarCliente(eventStore.Aggregate.Id, request.Valor, request.Descricao))
+                .Tap(e => eventStore.AppendOne(e))
+                .Map(e => eventStore.Aggregate.Apply(e))
                 .Convert(
                     c => new TransferirParaClienteResponse(c.Limite, c.Saldo),
                     e => e switch

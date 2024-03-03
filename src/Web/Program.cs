@@ -4,6 +4,7 @@ using Marten;
 using Marten.Events.Daemon.Resiliency;
 using Rinha.MMXXIV.Q1.Contracts.Clientes.v1.ObterExtrato;
 using Rinha.MMXXIV.Q1.Contracts.Clientes.v1.Transferir;
+using Rinha.MMXXIV.Q1.Core.Clientes;
 using Rinha.MMXXIV.Q1.Core.Clientes.Transferir.v1;
 using Rinha.MMXXIV.Q1.Core.Common;
 using Rinha.MMXXIV.Q1.Infrastructure;
@@ -17,7 +18,6 @@ builder.Services.ConfigureHttpJsonOptions(
 
 builder.Services.AddSingleton<IConfigureMarten, MartenConfiguration>();
 builder.Services.AddScoped<IReceberTransferirParaCliente, ReceberTransferirParaCliente>();
-builder.Services.AddScoped(typeof(IEntityStore<>), typeof(MartenEntityStore<>));
 builder.Services.AddMarten(builder.Configuration.GetConnectionString("Rinha") ?? throw new InvalidOperationException())
     .OptimizeArtifactWorkflow(TypeLoadMode.Static)
     .UseLightweightSessions()
@@ -30,8 +30,9 @@ var clientesApi = app.MapGroup("/clientes");
 
 clientesApi.MapPost(
     "/{id:long}/transacoes",
-    (long id, TransferirParaClienteRequest request, IReceberTransferirParaCliente useCase, CancellationToken ct) =>
-        useCase.Executar(id, request, ct)
+    (long id, TransferirParaClienteRequest request, IDocumentSession session, IReceberTransferirParaCliente useCase, CancellationToken ct) =>
+        MartenEventStore2<Cliente>
+            .WriteToAggregate(session, PostgreSqlCombProvider.Create(id), request, useCase.Executar, ct)
             .Finally(
                 r => r switch
                 {
